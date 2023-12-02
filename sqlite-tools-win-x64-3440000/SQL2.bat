@@ -1,15 +1,16 @@
-:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::
 @echo off
-if "%cd%\" EQU "%~dp0" start notepad++ %0 
+if "%cd%\" EQU "%~dp0" ((start notepad++ %0)&&(exit /b))
 cd %~dp0
 :::::::::::::::::::::::::::::::::
 set SQL_RunTimeFileName=SQL_RunTimeFileName.sql
-(
-echo --SQL_RunTimeFileName --Comment
-echo create table users^(name text, age integer^);
-echo insert into users values ^('Tom', 37^);
-echo select * from users;
-echo .save database.db)>%SQL_RunTimeFileName%
+set NL=^& echo.
+(echo ^
+--SQL_RunTimeFileName --Comment %NL%^
+.open database.db %NL%^
+.headers ON %NL%^
+select * from users; %NL%^
+SELECT * FROM sqlite_master;)>%SQL_RunTimeFileName%
 :::::::::::::::::::::::::::::::::
 notepad %SQL_RunTimeFileName%
 sqlite3.exe <%SQL_RunTimeFileName%
